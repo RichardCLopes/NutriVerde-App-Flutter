@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "877147845205",
+    "project_id": "nutriverdeiot2",
+    "storage_bucket": "nutriverdeiot2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877147845205:android:59c66b3279a39550955adc",
+        "android_client_info": {
+          "package_name": "com.example.nutriverde"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuhG8XcFqkzHg3Zlgegu2Whe-vwflzeHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
