@@ -108,7 +108,7 @@ class _SensorDataPageState extends State<SensorDataPage> {
                         
                         // Verificar se o documento existe em 'allsensors'
                         DocumentSnapshot snapshot = await allSensorsRef.get();
-                        if (snapshot.exists()) {
+                        if (snapshot.exists) {
                           await allSensorsRef.update({widget.collectionName: FieldValue.delete()});
 
                           // Verificar se o documento ainda tem outros campos, caso contrário, excluí-lo completamente
