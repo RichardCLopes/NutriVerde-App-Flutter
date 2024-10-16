@@ -10,10 +10,10 @@ import 'dart:async';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+
   // Inicializar as notificações
   await _initializeNotifications();
-  
+
   // Iniciar o monitoramento de sensores
   startMonitoring();
 
@@ -39,22 +39,54 @@ void startMonitoring() {
 }
 
 Future<void> monitorSensors() async {
+  //Pega dados de TDS
   double? tdsMin = await _getRangeValue('tdsMin');
   double? tdsMax = await _getRangeValue('tdsMax');
-  double? lastValue = await _getLastSensorValue('tds');
+  double? lasttds = await _getLastSensorValue('tds');
+  
+  //Pega dados de Radiação
+  double? radiacaoMin = await _getRangeValue('radiacaoMin');
+  double? radiacaoMax = await _getRangeValue('radiacaoMax');
+  double? lastrad = await _getLastSensorValue('radiacao');
+  
+  //Pega dados de Vazao
+  double? vazaoMin = await _getRangeValue('vazaoMin');
+  double? vazaoMax = await _getRangeValue('vazaoMax');
+  double? lastvazao = await _getLastSensorValue('vazao');
 
-  print('\n');
-  print(tdsMin);
-  print('\n');
-  print(tdsMax);
-  print('\n');
-  print(lastValue);
-  print('\n');
-  if (lastValue != null && tdsMin != null && tdsMax != null) {
-    if (_isValueOutOfRange(lastValue, tdsMin, tdsMax)) {
+  print('\n$tdsMin\t$tdsMax\t$lasttds\n');
+  print('\n$radiacaoMin\t$radiacaoMax\t$lastrad\n');
+  print('\n$vazaoMin\t$vazaoMax\t$lastvazao\n');
+
+  bool hasError = false;
+
+  // Notificação TDS
+  if (lasttds != null && tdsMin != null && tdsMax != null) {
+    if (_isValueOutOfRange(lasttds, tdsMin, tdsMax)) {
       _sendNotification('Alerta', 'O valor do TDS está fora do intervalo!');
+      hasError = true;
     }
   }
+  
+  // Notificação Radiação
+  if (lastrad != null && radiacaoMin != null && radiacaoMax != null) {
+    if (_isValueOutOfRange(lastrad, radiacaoMin, radiacaoMax)) {
+      _sendNotification('Alerta', 'A radiação solar está muito alta!');
+      hasError = true;
+    }
+  }
+  
+  // Notificação Vazão
+  if (lastvazao != null && vazaoMin != null && vazaoMax != null) {
+    if (_isValueOutOfRange(lastvazao, vazaoMin, vazaoMax)) {
+      _sendNotification('Alerta', 'O valor da vazão está fora do intervalo!');
+      hasError = true;
+    }
+  }
+
+  // Salvar o status de erro do sensor
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('sensorError', hasError);
 }
 
 Future<double?> _getRangeValue(String key) async {
@@ -87,7 +119,7 @@ void _sendNotification(String title, String body) async {
   const androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'channel_id',
     'channel_name',
-    channelDescription: 'description of your channel',
+    channelDescription: 'channel of notifications',
     importance: Importance.high,
     priority: Priority.high,
     icon: 'logo', 

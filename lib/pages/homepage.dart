@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
 import 'range.dart';
 import 'slider.dart';
 import 'opsensor.dart';
+import 'dart:async';
 import 'reset.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,6 +16,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+   bool _sensorError = false;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSensorError();
+    // Iniciar um timer para atualizar a cada 30 segundos
+    _timer = Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      _loadSensorError();
+    });
+  }
+
+  Future<void> _loadSensorError() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _sensorError = prefs.getBool('sensorError') ?? false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancelar o timer quando o widget for removido
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
         SizedBox(
-          width: 250,
-          child: Lottie.asset("lottie/broccoli.json"),
+          width: 280,
+          child: Lottie.asset(_sensorError ? "lottie/broccoli_error.json" : "lottie/broccoli.json"),
         ),
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
