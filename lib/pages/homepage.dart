@@ -185,13 +185,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         topLeft: Radius.circular(60),
                         bottomRight: Radius.circular(60)),
                     child: Material(
-                      color: Colors.green, // button color
+                      color: Colors.green, 
                       child: InkWell(
                         splashColor:
-                            Color.fromARGB(255, 0, 255, 0), // splash color
+                            Color.fromARGB(255, 0, 255, 0), 
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SensorPage()));}, // button pressed
+                              builder: (context) => SensorPage()));}, 
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
