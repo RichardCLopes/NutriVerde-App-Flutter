@@ -271,7 +271,7 @@ class _ChartSensorState extends State<ChartSensor> {
         touchTooltipData: LineTouchTooltipData(getTooltipItems: (data) {
           return data.map((item) {
             final date = getDate(item.spotIndex);
-            return LineTooltipItem("${item.y} mg/l",
+            return LineTooltipItem("${item.y} ${widget.sensorUnit}",
                 const TextStyle(color: Color.fromARGB(255, 0, 255, 179)),
                 children: [
                   TextSpan(
