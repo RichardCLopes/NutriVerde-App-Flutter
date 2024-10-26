@@ -56,7 +56,7 @@ class _MyRangesState extends State<MyRanges> {
             color: Colors.white,
           ),
           title: const Text(
-            'Nutri Verde',
+            'Intervalos',
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Times New Roman',
