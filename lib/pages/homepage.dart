@@ -248,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               size: 60,
                             ),
                             Text(
-                              "Reset",
+                              "Resetar",
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ],
